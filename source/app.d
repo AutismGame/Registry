@@ -6,9 +6,7 @@ Config cf;
 Registry rg;
 
 void main(string[] args)
-{  
-    printf("Frealy Shit\n"); // DBG
-    
+{
     // Load Config
     cf = new Config(8450); // TODO: deconstantialize
     
