@@ -4,7 +4,7 @@ import crypto;
 class ClientEntry : BaseEntry {
     this(ulong accountid) {
         this.accountid = accountid;
-        this.accountkey = new Key();
+        this.accountkey = NewKey();
     }
     
     immutable ulong accountid;

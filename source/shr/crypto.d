@@ -42,7 +42,7 @@ struct Key {
 
 }
 
-Key New() {
+Key NewKey() {
     Key newK;
     
     randombytes_buf(newK.quads.ptr, 32);
