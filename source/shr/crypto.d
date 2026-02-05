@@ -4,7 +4,7 @@ import libsodium;
 
 // i dont know any other libs so ill remain using libsodium
 
-class Key {
+struct Key {
     /**
     * 256 Key Class
     */
@@ -12,21 +12,21 @@ class Key {
         ulong[4] quads;
     
     public:
-        /** 
+        /**
          * This Constructor method generates a new, unique key.
          */
         this() {
             randombytes_buf(quads.ptr, 32);
         }
-    
+
         Key Hash(Key other) {
             // TODO
-            
+
             throw new Error("unimplemented");
-            
+
             return other;
         }
-    
+
         Key GeneratePublic() {
             // TODO
 
@@ -34,7 +34,7 @@ class Key {
 
             return this;
         }
-    
+
         bool Equals(Key other) {
             return (
                 this.quads[0] == other.quads[0] &&
@@ -43,5 +43,5 @@ class Key {
                 this.quads[3] == other.quads[3]
             );
         }
-        
+
 }
