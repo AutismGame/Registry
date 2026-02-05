@@ -1,15 +1,22 @@
 import std.stdio; // DBG
+import core.stdc.signal;
 import registry;
+import cliententry;
+import serverentry;
 import config;
 
-Config cf;
-Registry rg;
+extern(C) nothrow @nogc void killsignal(sig_atomic_t signal) {
+    printf("\numieram :(\n");
+    Registry_End();
+}
 
 void main(string[] args)
 {
-    // Load Config
-    cf = new Config(8450); // TODO: deconstantialize
+    signal(SIGINT, &killsignal);
     
-    rg = new Registry();
-    rg.Listen(cf.port); // TODO: looks weird, maybe have some sort of AttachConfig function or require a *Config configuration when creating a registry.
+    // TODO Load Config
+
+    printf("i try\n");
+    
+    Registry_Init();
 }

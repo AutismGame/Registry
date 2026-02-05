@@ -3,21 +3,26 @@ public import std.socket;
 class BaseRegistry
 {
 
-    UdpSocket listener;
+    TcpSocket listener;
     void Listen(ushort port)
     {
-        listener = new UdpSocket();
+        listener = new TcpSocket();
         listener.blocking = false;
         listener.bind(new InternetAddress(port));
     }
 
-    ubyte[] ProcessPacket(uint packettype, ubyte[] data, sockaddr fromi)
+    void[] ProcessPacket(uint packettype, ubyte[] data, sockaddr fromi)
     {
         return [];
     }
 
-    /*void Tick(double delta)
+    void Tick(double delta)
     {
+        if(listener is null)
+        {
+            return;
+        }
+
         try
         {
             Address from;
@@ -28,7 +33,7 @@ class BaseRegistry
                 sockaddr fromi = *from.name();
                 uint packettype = *cast(uint*)packet.ptr;
 
-                ubyte[] tosend = ProcessPacket(packettype,(packet.ptr)[0..packetLength],fromi);
+                ubyte[] tosend = cast(ubyte[])ProcessPacket(packettype,(packet.ptr)[0..packetLength],fromi);
                 if(tosend.length > 0)
                 {
                     listener.sendTo(tosend,from);
@@ -40,7 +45,14 @@ class BaseRegistry
         {
 
         }
-    }*/
+    }
+
+    void CloseSocket()
+    {
+        listener.shutdown(SocketShutdown.BOTH);
+        listener.close();
+        listener = null;
+    }
 
     /*void SendToAll(PacketT)(PacketT pack)
     {

@@ -3,3 +3,5 @@ description "Autism Regsitry"
 authors "wav3"
 copyright "Copyright © 2025, wav3"
 license "GPL-3.0-or-later"
+
+dependency "libsodiumd" version="~>0.2.0+1.0.18"
