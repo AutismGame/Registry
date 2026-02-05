@@ -36,6 +36,7 @@ struct RegistryPacket_B0_Info
 		ErrorExternal, // your recieved data sucks (malformed)
 		RateLimit,
 	}
+	Information info;
 }
 
 struct RegistryPacket_S4_Advertise

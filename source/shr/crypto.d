@@ -34,5 +34,14 @@ class Key {
 
             return this;
         }
+    
+        bool Equals(Key other) {
+            return (
+                this.quads[0] == other.quads[0] &&
+                this.quads[1] == other.quads[1] &&
+                this.quads[2] == other.quads[2] &&
+                this.quads[3] == other.quads[3]
+            );
+        }
         
 }

@@ -5,6 +5,7 @@ import std.stdio;
 import std.concurrency;
 import packet;
 import crypto;
+import sex;
 
 
 class Registry : BaseRegistry {
@@ -22,7 +23,7 @@ class Registry : BaseRegistry {
     {
         writeln("Registry:");
         writeln(packettype);
-        ubyte[] retVal;
+        void[] retVal = [];
         
         // we only deal with registry packets
         if (!(packettype & PACKET_FLAGS.Registry)) {
@@ -38,14 +39,41 @@ class Registry : BaseRegistry {
                 switch(pack.operation) {
                     case RegistryPacket_C10_Account.UserOperation.Create:
                         ClientEntry newAccount = new ClientEntry(NextFree());
-                        
+
                         RegisterClient(newAccount);
+
+                        RegistryPacket_R10_Account response;
+
+                        response.accountid = newAccount.accountid;
+                        response.accountkey = newAccount.accountkey;
+
+                        response.Serialize(retVal);
                         break;
                     case RegistryPacket_C10_Account.UserOperation.Modify:
                         break;
                     case RegistryPacket_C10_Account.UserOperation.Remove:
-                        
-                        
+                        ulong accountid = pack.remove.accountid;
+
+                        ClientEntry entry = FindClientEntry(accountid);
+
+                        if (!entry) {
+                            break;
+                        }
+
+                        Key accountkey = pack.remove.accountkey;
+
+                        if (!entry.accountkey.Equals(accountkey)) {
+                            break;
+                        }
+
+                        UnregisterClient(entry);
+
+                        RegistryPacket_B0_Info response;
+
+                        response.info = RegistryPacket_B0_Info.Information.Success;
+
+                        response.Serialize(retVal);
+
                         break;
                     default:
                         break;
@@ -56,7 +84,7 @@ class Registry : BaseRegistry {
             // Servers
             
             default:
-                retVal = [];
+                //retVal = [];
                 break;
         }
         return retVal;
@@ -65,14 +93,14 @@ class Registry : BaseRegistry {
     override void Tick(double delta) {
         super.Tick(delta);
     }
-    
+
     ClientEntry FindClientEntry(ulong accountid) {
         foreach (client; clients) {
             if (client.accountid == accountid) {
                 return client;
             }
         }
-        
+
         return null;
     }
     
@@ -83,13 +111,13 @@ class Registry : BaseRegistry {
     
     void RegisterClient(ClientEntry entry) {
         writeln("Client registered\n");
-        
+
         clients ~= entry;
     }
-    
-    void UnregisterClient(ulong accountid) {
+
+    void UnregisterClient(ClientEntry entry) {
         // MAKE SURE YOU HAVE VERIFIED that whatever is calling this method has full permission to delete accounts (such as the owner themselves)
-        
+        // TODO too lazy
     }
     
     private ulong NextFree() {

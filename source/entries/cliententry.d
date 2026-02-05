@@ -8,5 +8,5 @@ class ClientEntry : BaseEntry {
     }
     
     immutable ulong accountid;
-    private Key accountkey;
+    Key accountkey;
 }
