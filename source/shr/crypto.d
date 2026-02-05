@@ -15,10 +15,6 @@ struct Key {
         /**
          * This Constructor method generates a new, unique key.
          */
-        this() {
-            randombytes_buf(quads.ptr, 32);
-        }
-
         Key Hash(Key other) {
             // TODO
 
@@ -44,4 +40,12 @@ struct Key {
             );
         }
 
+}
+
+Key New() {
+    Key newK;
+    
+    randombytes_buf(newK.quads.ptr, 32);
+    
+    return newK;
 }
