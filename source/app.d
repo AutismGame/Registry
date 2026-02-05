@@ -4,6 +4,7 @@ import registry;
 import cliententry;
 import serverentry;
 import config;
+import test;
 
 extern(C) nothrow @nogc void killsignal(sig_atomic_t signal) {
     printf("\numieram :(\n");
@@ -19,4 +20,6 @@ void main(string[] args)
     printf("i try\n");
     
     Registry_Init();
+
+    Test();
 }

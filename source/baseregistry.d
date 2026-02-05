@@ -1,4 +1,5 @@
 public import std.socket;
+import std.stdio;
 
 class BaseRegistry
 {
@@ -8,7 +9,8 @@ class BaseRegistry
     {
         listener = new TcpSocket();
         listener.blocking = false;
-        listener.bind(new InternetAddress(port));
+        listener.bind(new InternetAddress("127.0.0.1", port));
+        listener.listen(10);
     }
 
     void[] ProcessPacket(uint packettype, ubyte[] data, sockaddr fromi)
@@ -28,8 +30,11 @@ class BaseRegistry
             Address from;
             ubyte[2048] packet;
             auto packetLength = listener.receiveFrom(packet[], from);
+            
             while(packetLength != Socket.ERROR)
             {
+                writeln("hi");
+
                 sockaddr fromi = *from.name();
                 uint packettype = *cast(uint*)packet.ptr;
 
