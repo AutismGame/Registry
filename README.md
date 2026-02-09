@@ -3,3 +3,6 @@ Software for the 3rd party OAuth / Server Registry. An official registry or Auti
 
 # shr?
 Files that require updating when updated on Engine repo
+
+
+This project has been migrated to [Codeberg](https://codeberg.org/AutismGame/Registry)
